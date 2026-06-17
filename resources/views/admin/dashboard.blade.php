@@ -85,9 +85,9 @@
             </div>
         </div>
 
-        <!-- Activity Log Timeline (1 Column) -->
-        <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-xs flex flex-col">
-            <h3 class="font-bold text-slate-950 text-base mb-5 flex items-center gap-2 pb-3 border-b border-slate-50">
+        <!-- Activity Log Timeline (1 Column) — sticky on scroll -->
+        <div id="activity-log-sticky" class="sticky self-start bg-white border border-slate-100 rounded-2xl p-6 shadow-xs flex flex-col overflow-hidden z-[1]" style="top: 73px; max-height: calc(100vh - 90px);">
+            <h3 class="font-bold text-slate-950 text-base mb-5 flex items-center gap-2 pb-3 border-b border-slate-50 shrink-0">
                 <i class="fa-solid fa-history text-emerald-600"></i>
                 <span>{{ __('messages.activity_log') }}</span>
             </h3>
@@ -98,7 +98,7 @@
                     <p class="text-slate-400 text-xs">{{ __('messages.no_activities') }}</p>
                 </div>
             @else
-                <div class="flex-grow overflow-y-auto space-y-4 pr-1 max-h-72">
+                <div class="flex-grow overflow-y-auto space-y-4 pe-1">
                     @foreach($activities as $act)
                         <div class="flex gap-3 relative before:absolute {{ app()->getLocale() == 'ar' ? 'before:right-[15px]' : 'before:left-[15px]' }} before:top-8 before:bottom-[-20px] before:w-[2px] before:bg-slate-100 last:before:hidden">
                             <!-- Icon -->

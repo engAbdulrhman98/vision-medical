@@ -6,7 +6,8 @@
     <title>@yield('title', __('messages.store_name'))</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}?v=3">
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}?v=3">
     
     <!-- Google Fonts: Tajawal & Outfit -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,11 +39,36 @@
             <div class="flex items-center justify-between h-20">
                 
                 <!-- Logo & Brand Name -->
-                <div class="flex items-center gap-3">
-                    <a href="{{ route('home') }}" class="flex items-center group">
-                        <img src="{{ asset('images/logo.svg') }}" alt="Vision Medical" class="h-16 w-auto group-hover:scale-110 transition-transform duration-300 ease-out group-hover:drop-shadow-[0_0_12px_rgba(16,185,129,0.3)]">
-                    </a>
+                <div class="flex items-center min-w-0">
+                    @if(app()->getLocale() == 'ar')
+                        <a href="{{ route('home') }}" class="flex items-center gap-2 sm:gap-3 group" style="direction: rtl;">
+                            <img src="{{ asset('images/logo.png') }}?v=3" alt="Vision Medical" class="h-10 w-10 sm:h-14 sm:w-14 object-contain group-hover:scale-110 transition-transform duration-300 ease-out flex-shrink-0">
+                            <div class="flex flex-col justify-center min-w-0" style="font-family: 'Tajawal', sans-serif; direction: rtl; text-align: right;">
+                                <div class="flex flex-row items-baseline leading-none whitespace-nowrap" style="font-size: clamp(18px, 4vw, 28px); font-weight: 900;">
+                                    <span style="color: #6D6E71;">فيجن</span>
+                                    <span style="color: #00A99D; margin-right: 5px;">ميدكال</span>
+                                </div>
+                                <span class="hidden sm:block" style="font-family: 'Tajawal', sans-serif; font-size: 12px; font-weight: 500; color: #6D6E71; margin-top: 3px; letter-spacing: 0.02em; white-space: nowrap;">
+                                    {{ __('messages.color_maintenance_title') }}
+                                </span>
+                            </div>
+                        </a>
+                    @else
+                        <a href="{{ route('home') }}" class="flex items-center gap-2 sm:gap-3 group" style="direction: ltr; text-align: left;">
+                            <img src="{{ asset('images/logo.png') }}?v=3" alt="Vision Medical" class="h-10 w-10 sm:h-14 sm:w-14 object-contain group-hover:scale-110 transition-transform duration-300 ease-out flex-shrink-0">
+                            <div class="flex flex-col justify-center min-w-0" style="font-family: 'Outfit', sans-serif; direction: ltr; text-align: left;">
+                                <div class="flex flex-row items-baseline leading-none whitespace-nowrap" style="font-size: clamp(16px, 4vw, 28px); font-weight: 900; letter-spacing: -0.02em;">
+                                    <span style="color: #6D6E71;">VISION</span>
+                                    <span style="color: #00A99D; margin-left: 6px;">MEDICAL</span>
+                                </div>
+                                <span class="hidden sm:block" style="font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 500; color: #6D6E71; margin-top: 3px; letter-spacing: 0.08em; white-space: nowrap; text-transform: uppercase;">
+                                    {{ __('messages.color_maintenance_title') }}
+                                </span>
+                            </div>
+                        </a>
+                    @endif
                 </div>
+
 
                 <!-- Navigation Links -->
                 <nav class="hidden md:flex items-center gap-8">
@@ -71,11 +97,11 @@
                 <div class="flex items-center gap-4">
                     
                     <!-- Language Switcher Button -->
-                    <div class="border-s border-slate-200/80 ps-4 flex items-center gap-2">
+                    <div class="border-s border-slate-200/80 ps-2 sm:ps-4 flex items-center gap-1 sm:gap-2">
                         @foreach(\Mcamara\LaravelLocalization\Facades\LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
                             @if($localeCode !== \Mcamara\LaravelLocalization\Facades\LaravelLocalization::getCurrentLocale())
                                 <a href="{{ \Mcamara\LaravelLocalization\Facades\LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}" 
-                                   class="flex items-center gap-1.5 text-xs font-bold text-slate-700 hover:text-emerald-600 transition-all-300 px-4 py-2 bg-slate-50 hover:bg-emerald-50 rounded-full border border-slate-200/60 hover:border-emerald-200 shadow-xs">
+                                   class="flex items-center gap-1 text-xs font-bold text-slate-700 hover:text-emerald-600 transition-all-300 px-2.5 sm:px-4 py-2 bg-slate-50 hover:bg-emerald-50 rounded-full border border-slate-200/60 hover:border-emerald-200 shadow-xs">
                                     <i class="fa-solid fa-language text-emerald-600 text-sm"></i>
                                     <span>{{ $properties['native'] }}</span>
                                 </a>
@@ -147,7 +173,30 @@
                 <!-- Col 1: Store Intro -->
                 <div class="space-y-6">
                     <div class="flex items-center">
-                        <img src="{{ asset('images/logo.svg') }}" alt="Vision Medical" class="h-10 w-auto brightness-0 invert opacity-90">
+                        <a href="{{ route('home') }}" class="flex items-center gap-3 group" style="direction: ltr; text-align: left;">
+                            <img src="{{ asset('images/logo.png') }}?v=3" alt="Vision Medical" class="h-12 w-12 object-contain group-hover:scale-110 transition-transform duration-300" style="display: block; flex-shrink: 0;">
+                            @if(app()->getLocale() == 'ar')
+                                <div class="flex flex-col justify-center" style="font-family: 'Tajawal', sans-serif; direction: rtl; text-align: right;">
+                                    <div style="display: flex; flex-direction: row; align-items: baseline; font-size: 22px; font-weight: 900; letter-spacing: 0; line-height: 1; white-space: nowrap;">
+                                        <span style="color: #6D6E71;">فيجن</span>
+                                        <span style="color: #00A99D; margin-right: 5px;">ميدكال</span>
+                                    </div>
+                                    <span style="font-family: 'Tajawal', sans-serif; font-size: 11px; font-weight: 500; color: #94a3b8; margin-top: 4px; letter-spacing: 0.02em; line-height: 1.2; display: block; white-space: nowrap;">
+                                        {{ __('messages.color_maintenance_title') }}
+                                    </span>
+                                </div>
+                            @else
+                                <div class="flex flex-col justify-center" style="font-family: 'Outfit', sans-serif; direction: ltr; text-align: left;">
+                                    <div style="display: flex; flex-direction: row; align-items: baseline; font-size: 22px; font-weight: 900; letter-spacing: -0.02em; line-height: 1; white-space: nowrap;">
+                                        <span style="color: #6D6E71;">VISION</span>
+                                        <span style="color: #00A99D; margin-left: 6px;">MEDICAL</span>
+                                    </div>
+                                    <span style="font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 500; color: #94a3b8; margin-top: 4px; letter-spacing: 0.1em; line-height: 1.2; display: block; white-space: nowrap; text-transform: uppercase;">
+                                        {{ __('messages.color_maintenance_title') }}
+                                    </span>
+                                </div>
+                            @endif
+                        </a>
                     </div>
                     <p class="text-sm text-slate-400 leading-relaxed">
                         {{ app()->getLocale() == 'ar' 

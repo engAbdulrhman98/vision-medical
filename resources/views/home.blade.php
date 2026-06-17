@@ -302,6 +302,8 @@
                 <!-- Set subject default hidden -->
                 <input type="hidden" name="subject" value="[طلب صيانة أجهزة طبية]">
                 <input type="hidden" name="message" id="hidden-message-input">
+                {{-- Hidden email placeholder so the controller accepts the form --}}
+                <input type="hidden" name="email" value="maintenance@visionmedical.local">
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <!-- Client Name -->
@@ -315,15 +317,78 @@
                         @enderror
                     </div>
 
-                    <!-- Client Email -->
+                    <!-- Phone Number (replaces email) -->
                     <div class="space-y-1.5">
-                        <label for="email" class="block text-xs font-bold text-slate-600">{{ __('messages.email') }} *</label>
-                        <input type="email" name="email" id="email" required value="{{ old('email') }}"
-                               placeholder="{{ __('messages.email_placeholder') }}" 
-                               class="w-full bg-white border border-slate-200 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/20 rounded-xl px-4 py-3.5 text-slate-900 text-sm focus:outline-none transition-all-300 shadow-sm">
-                        @error('email')
-                            <span class="text-rose-500 text-[10px] font-bold block mt-1">{{ $message }}</span>
-                        @enderror
+                        <label for="phone_input" class="block text-xs font-bold text-slate-600">{{ __('messages.phone_label') }} *</label>
+                        <input type="tel" id="phone_input" required
+                               placeholder="{{ __('messages.phone_placeholder') }}" 
+                               class="w-full bg-white border border-slate-200 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/20 rounded-xl px-4 py-3.5 text-slate-900 text-sm focus:outline-none transition-all-300 shadow-sm" dir="ltr">
+                    </div>
+
+                    <!-- Governorate -->
+                    <div class="space-y-1.5">
+                        <label for="governorate_input" class="block text-xs font-bold text-slate-600">{{ __('messages.governorate_label') }} *</label>
+                        <select id="governorate_input" required
+                                class="w-full bg-white border border-slate-200 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/20 rounded-xl px-4 py-3.5 text-slate-900 text-sm focus:outline-none transition-all-300 shadow-sm appearance-none cursor-pointer">
+                            <option value="" disabled selected>{{ __('messages.governorate_placeholder') }}</option>
+                            @if(app()->getLocale() == 'ar')
+                                <option value="القاهرة">القاهرة</option>
+                                <option value="الجيزة">الجيزة</option>
+                                <option value="الإسكندرية">الإسكندرية</option>
+                                <option value="الدقهلية">الدقهلية</option>
+                                <option value="البحر الأحمر">البحر الأحمر</option>
+                                <option value="البحيرة">البحيرة</option>
+                                <option value="الفيوم">الفيوم</option>
+                                <option value="الغربية">الغربية</option>
+                                <option value="الإسماعيلية">الإسماعيلية</option>
+                                <option value="المنوفية">المنوفية</option>
+                                <option value="المنيا">المنيا</option>
+                                <option value="القليوبية">القليوبية</option>
+                                <option value="الوادي الجديد">الوادي الجديد</option>
+                                <option value="السويس">السويس</option>
+                                <option value="اسوان">اسوان</option>
+                                <option value="اسيوط">اسيوط</option>
+                                <option value="بني سويف">بني سويف</option>
+                                <option value="بورسعيد">بورسعيد</option>
+                                <option value="دمياط">دمياط</option>
+                                <option value="جنوب سيناء">جنوب سيناء</option>
+                                <option value="شمال سيناء">شمال سيناء</option>
+                                <option value="سوهاج">سوهاج</option>
+                                <option value="قنا">قنا</option>
+                                <option value="كفر الشيخ">كفر الشيخ</option>
+                                <option value="مطروح">مطروح</option>
+                                <option value="الأقصر">الأقصر</option>
+                                <option value="الشرقية">الشرقية</option>
+                            @else
+                                <option value="Cairo">Cairo</option>
+                                <option value="Giza">Giza</option>
+                                <option value="Alexandria">Alexandria</option>
+                                <option value="Dakahlia">Dakahlia</option>
+                                <option value="Red Sea">Red Sea</option>
+                                <option value="Beheira">Beheira</option>
+                                <option value="Fayoum">Fayoum</option>
+                                <option value="Gharbia">Gharbia</option>
+                                <option value="Ismailia">Ismailia</option>
+                                <option value="Monufia">Monufia</option>
+                                <option value="Minya">Minya</option>
+                                <option value="Qalyubia">Qalyubia</option>
+                                <option value="New Valley">New Valley</option>
+                                <option value="Suez">Suez</option>
+                                <option value="Aswan">Aswan</option>
+                                <option value="Asyut">Asyut</option>
+                                <option value="Beni Suef">Beni Suef</option>
+                                <option value="Port Said">Port Said</option>
+                                <option value="Damietta">Damietta</option>
+                                <option value="South Sinai">South Sinai</option>
+                                <option value="North Sinai">North Sinai</option>
+                                <option value="Sohag">Sohag</option>
+                                <option value="Qena">Qena</option>
+                                <option value="Kafr el-Sheikh">Kafr el-Sheikh</option>
+                                <option value="Matruh">Matruh</option>
+                                <option value="Luxor">Luxor</option>
+                                <option value="Sharqia">Sharqia</option>
+                            @endif
+                        </select>
                     </div>
 
                     <!-- Device Name -->
@@ -333,14 +398,30 @@
                                placeholder="{{ __('messages.device_name_placeholder') }}" 
                                class="w-full bg-white border border-slate-200 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/20 rounded-xl px-4 py-3.5 text-slate-900 text-sm focus:outline-none transition-all-300 shadow-sm">
                     </div>
+                </div>
 
-                    <!-- Device Model -->
-                    <div class="space-y-1.5">
-                        <label for="device_model" class="block text-xs font-bold text-slate-600">{{ __('messages.device_model') }}</label>
-                        <input type="text" id="device_model"
-                               placeholder="{{ __('messages.device_model_placeholder') }}" 
-                               class="w-full bg-white border border-slate-200 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/20 rounded-xl px-4 py-3.5 text-slate-900 text-sm focus:outline-none transition-all-300 shadow-sm">
-                    </div>
+                <!-- Place Name -->
+                <div class="space-y-1.5">
+                    <label for="place_name_input" class="block text-xs font-bold text-slate-600">{{ __('messages.place_name_label') }} *</label>
+                    <input type="text" id="place_name_input" required
+                           placeholder="{{ __('messages.place_name_placeholder') }}" 
+                           class="w-full bg-white border border-slate-200 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/20 rounded-xl px-4 py-3.5 text-slate-900 text-sm focus:outline-none transition-all-300 shadow-sm">
+                </div>
+
+                <!-- Address Description -->
+                <div class="space-y-1.5">
+                    <label for="address_input" class="block text-xs font-bold text-slate-600">{{ __('messages.address_label') }} *</label>
+                    <input type="text" id="address_input" required
+                           placeholder="{{ __('messages.address_placeholder') }}" 
+                           class="w-full bg-white border border-slate-200 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/20 rounded-xl px-4 py-3.5 text-slate-900 text-sm focus:outline-none transition-all-300 shadow-sm">
+                </div>
+
+                <!-- Device Model -->
+                <div class="space-y-1.5">
+                    <label for="device_model" class="block text-xs font-bold text-slate-600">{{ __('messages.device_model') }}</label>
+                    <input type="text" id="device_model"
+                           placeholder="{{ __('messages.device_model_placeholder') }}" 
+                           class="w-full bg-white border border-slate-200 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/20 rounded-xl px-4 py-3.5 text-slate-900 text-sm focus:outline-none transition-all-300 shadow-sm">
                 </div>
 
                 <!-- Problem Description -->
@@ -449,13 +530,31 @@
 @section('scripts')
     <script>
         document.getElementById('maintenance-form').addEventListener('submit', function(e) {
+            const phone      = document.getElementById('phone_input').value;
+            const gov        = document.getElementById('governorate_input').value;
+            const placeName  = document.getElementById('place_name_input').value;
+            const address    = document.getElementById('address_input').value;
             const deviceName = document.getElementById('device_name').value;
             const deviceModel = document.getElementById('device_model').value || '{{ app()->getLocale() == 'ar' ? 'غير محدد' : 'Not Specified' }}';
             const problemDesc = document.getElementById('problem_desc_input').value;
             
-            const message = `{{ app()->getLocale() == 'ar' ? 'اسم الجهاز الطبي' : 'Medical Device' }}: ${deviceName}\n` +
-                            `{{ app()->getLocale() == 'ar' ? 'الموديل' : 'Model' }}: ${deviceModel}\n` +
-                            `{{ app()->getLocale() == 'ar' ? 'وصف المشكلة' : 'Problem Description' }}:\n${problemDesc}`;
+            const isAr = {{ app()->getLocale() == 'ar' ? 'true' : 'false' }};
+
+            const message = (isAr
+                ? `📞 رقم الهاتف: ${phone}\n` +
+                  `📍 المحافظة: ${gov}\n` +
+                  `🏥 اسم المكان: ${placeName}\n` +
+                  `🏠 العنوان: ${address}\n` +
+                  `🔬 اسم الجهاز الطبي: ${deviceName}\n` +
+                  `📋 الموديل: ${deviceModel}\n` +
+                  `❗ وصف المشكلة:\n${problemDesc}`
+                : `📞 Phone: ${phone}\n` +
+                  `📍 Governorate: ${gov}\n` +
+                  `🏥 Place Name: ${placeName}\n` +
+                  `🏠 Address: ${address}\n` +
+                  `🔬 Medical Device: ${deviceName}\n` +
+                  `📋 Model: ${deviceModel}\n` +
+                  `❗ Problem Description:\n${problemDesc}`);
             
             document.getElementById('hidden-message-input').value = message;
         });

@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
         User::updateOrCreate(
             ['email' => 'admin@vision-medical.com'],
             [
-                'name' => 'مدير النظام',
+                'name' => 'Admin',
                 'password' => Hash::make('admin123'),
                 'email_verified_at' => now(),
             ]

@@ -39,10 +39,19 @@
         </div>
     </div>
 
+    <!-- Mobile Filter Toggle Button -->
+    <div class="flex lg:hidden mb-4">
+        <button onclick="document.getElementById('filter-sidebar').classList.toggle('hidden')"
+                class="flex items-center gap-2 bg-white border border-slate-200 text-slate-700 text-sm font-bold px-5 py-2.5 rounded-xl shadow-sm hover:bg-emerald-50 hover:border-emerald-200 hover:text-emerald-700 transition-all">
+            <i class="fa-solid fa-sliders"></i>
+            <span>{{ app()->getLocale() == 'ar' ? 'الفلاتر' : 'Filters' }}</span>
+        </button>
+    </div>
+
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
         
         <!-- Filters Sidebar -->
-        <div class="space-y-8">
+        <div id="filter-sidebar" class="hidden lg:block space-y-8">
             
             <!-- Active Filters Panel -->
             @if(request('category') || request('brand') || request('search'))
