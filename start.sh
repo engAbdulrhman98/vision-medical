@@ -1,45 +1,24 @@
 #!/bin/bash
 
-echo "=== Vision Medical - Starting up ==="
-echo "PORT: ${PORT:-8000}"
+echo "=== Vision Medical - Starting (Nginx + PHP-FPM) ==="
+echo "PORT: ${PORT:-8080}"
 echo "APP_ENV: ${APP_ENV:-production}"
-echo "DB_HOST: ${DB_HOST:-NOT_SET}"
-echo "PWD: $(pwd)"
 
-# --- Check build assets exist ---
-echo ""
-echo "--- Checking public/build/ ---"
-if [ -d "public/build" ]; then
-    echo "✓ public/build/ exists"
-    ls -la public/build/
-    echo ""
-    echo "Assets:"
-    ls -lh public/build/assets/ 2>/dev/null || echo "✗ public/build/assets/ missing!"
-    echo ""
-    echo "CSS file size:"
-    wc -c public/build/assets/*.css 2>/dev/null || echo "No CSS files"
-else
-    echo "✗ public/build/ DOES NOT EXIST - Vite build failed!"
-fi
-
-echo ""
-
-# Create storage directories if missing
-mkdir -p storage/framework/cache/data \
-         storage/framework/sessions \
-         storage/framework/views \
-         storage/logs \
-         bootstrap/cache
+# Ensure correct permissions at runtime
+chown -R www-data:www-data /app/storage /app/bootstrap/cache 2>/dev/null || true
 
 # Storage link
 echo "--- Setting up storage link ---"
 php artisan storage:link --force 2>&1 || echo "Storage link skipped"
 
-# Run migrations (non-fatal)
+# Run migrations
 echo "--- Running migrations ---"
-php artisan migrate --force --no-interaction 2>&1 && echo "✓ Migrations OK" || echo "⚠ Migrations failed (app will still start)"
+php artisan migrate --force --no-interaction 2>&1 && echo "✓ Migrations OK" || echo "⚠ Migrations failed"
 
-# Start PHP server
+# Check build assets
+echo "--- Build assets check ---"
+ls -lh /app/public/build/assets/*.css 2>/dev/null && echo "✓ CSS assets exist" || echo "⚠ No CSS assets!"
+
 echo ""
-echo "--- Starting PHP server on port ${PORT:-8000} ---"
-exec php -S 0.0.0.0:${PORT:-8000} -t public public/router.php
+echo "--- Starting Nginx + PHP-FPM via Supervisor ---"
+exec /usr/bin/supervisord -c /etc/supervisor/conf.d/vision-medical.conf

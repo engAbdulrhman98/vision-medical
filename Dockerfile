@@ -1,7 +1,9 @@
-FROM php:8.4-cli
+FROM php:8.4-fpm
 
-# Install system dependencies
+# Install system dependencies + Nginx + Supervisor
 RUN apt-get update && apt-get install -y \
+    nginx \
+    supervisor \
     git \
     curl \
     libpng-dev \
@@ -33,31 +35,41 @@ RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
 
 WORKDIR /app
 
-# ── Layer 1: npm deps (cached unless package.json changes) ───────────────────
+# ── npm install (cached unless package.json changes) ─────────────────────────
 COPY package.json package-lock.json ./
 RUN npm ci
 
-# ── Layer 2: ALL source files ─────────────────────────────────────────────────
+# ── Copy all project files ────────────────────────────────────────────────────
 COPY . .
 
-# ── Layer 3: PHP deps + post-install scripts (needs project files) ────────────
+# ── Composer install (needs project files for post-install scripts) ───────────
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
 
-# ── Layer 4: Build Vite assets ────────────────────────────────────────────────
+# ── Build Vite assets ─────────────────────────────────────────────────────────
 RUN npm run build && rm -rf node_modules
 
-# Set permissions
+# Set up directories and permissions
 RUN mkdir -p storage/framework/cache/data \
              storage/framework/sessions \
              storage/framework/views \
              storage/logs \
              bootstrap/cache \
-    && chmod -R 775 storage bootstrap/cache
+    && chmod -R 775 storage bootstrap/cache \
+    && chown -R www-data:www-data /app
 
-# Copy and configure startup script
+# Configure Nginx
+COPY docker/nginx.conf /etc/nginx/sites-available/default
+RUN ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default \
+    && rm -f /etc/nginx/sites-enabled/default 2>/dev/null || true \
+    && ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+
+# Configure Supervisor
+COPY docker/supervisord.conf /etc/supervisor/conf.d/vision-medical.conf
+
+# Startup script
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
-EXPOSE 8000
+EXPOSE 8080
 
 CMD ["/bin/bash", "/start.sh"]
