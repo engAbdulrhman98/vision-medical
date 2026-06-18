@@ -40,7 +40,7 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
 
 # Install Node.js dependencies and build assets
-RUN npm ci --ignore-scripts && npm run build && rm -rf node_modules
+RUN npm ci && npm run build && rm -rf node_modules
 
 # Set permissions
 RUN mkdir -p storage/framework/cache/data \
