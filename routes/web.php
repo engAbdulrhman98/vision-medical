@@ -17,9 +17,21 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 | Web Routes wrapped inside LaravelLocalization Group
 |--------------------------------------------------------------------------
 */
-$locales = (app()->environment('testing') || app()->runningInConsole())
+$isRouteCache = false;
+if (app()->runningInConsole()) {
+    $argv = $_SERVER['argv'] ?? [];
+    foreach ($argv as $arg) {
+        if (str_contains($arg, 'route:cache') || str_contains($arg, 'optimize')) {
+            $isRouteCache = true;
+            break;
+        }
+    }
+}
+
+$locales = (app()->environment('testing') || (app()->runningInConsole() && !$isRouteCache))
     ? ['en', 'ar']
     : [LaravelLocalization::setLocale()];
+
 
 foreach ($locales as $locale) {
     Route::group([

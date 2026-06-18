@@ -1,5 +1,14 @@
 <?php
 
+// Prevent standard route caching from breaking localized routes in production
+if (PHP_SAPI !== 'cli') {
+    foreach ([__DIR__ . '/cache/routes-v7.php', __DIR__ . '/cache/routes.php'] as $file) {
+        if (file_exists($file)) {
+            @unlink($file);
+        }
+    }
+}
+
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
