@@ -88,13 +88,17 @@
             @foreach($products as $product)
                 <div class="bg-white border border-slate-100 rounded-2xl shadow-sm p-4">
                     <div class="flex gap-3">
-                        {{-- Image --}}
+                        {{-- Image/Video --}}
                         <div class="w-16 h-16 rounded-xl bg-slate-50 border border-slate-100 overflow-hidden flex items-center justify-center shrink-0">
                             @if($product->image)
-                                <img src="{{ $product->image }}" alt="{{ $product->name }}" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                <span class="hidden w-full h-full items-center justify-center bg-slate-50">
-                                    <i class="fa-solid fa-briefcase-medical text-slate-300 text-lg"></i>
-                                </span>
+                                @if($product->isVideo())
+                                    <video src="{{ $product->image }}" class="w-full h-full object-cover" autoplay loop muted playsinline></video>
+                                @else
+                                    <img src="{{ $product->image }}" alt="{{ $product->name }}" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <span class="hidden w-full h-full items-center justify-center bg-slate-50">
+                                        <i class="fa-solid fa-briefcase-medical text-slate-300 text-lg"></i>
+                                    </span>
+                                @endif
                             @else
                                 <i class="fa-solid fa-briefcase-medical text-slate-300 text-lg"></i>
                             @endif
@@ -170,10 +174,14 @@
                                 <td class="px-6 py-4">
                                     <div class="w-14 h-14 rounded-xl bg-slate-50 border border-slate-100 overflow-hidden flex items-center justify-center">
                                         @if($product->image)
-                                            <img src="{{ $product->image }}" alt="{{ $product->name }}" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                            <span class="hidden w-full h-full items-center justify-center bg-slate-50">
-                                                <i class="fa-solid fa-briefcase-medical text-slate-300 text-base"></i>
-                                            </span>
+                                            @if($product->isVideo())
+                                                <video src="{{ $product->image }}" class="w-full h-full object-cover" autoplay loop muted playsinline></video>
+                                            @else
+                                                <img src="{{ $product->image }}" alt="{{ $product->name }}" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                                <span class="hidden w-full h-full items-center justify-center bg-slate-50">
+                                                    <i class="fa-solid fa-briefcase-medical text-slate-300 text-base"></i>
+                                                </span>
+                                            @endif
                                         @else
                                             <i class="fa-solid fa-briefcase-medical text-slate-300 text-base"></i>
                                         @endif

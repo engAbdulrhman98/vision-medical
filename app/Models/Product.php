@@ -53,4 +53,18 @@ class Product extends Model
     {
         return round($this->approvedReviews()->avg('rating') ?? 0, 1);
     }
+
+    /**
+     * Check if the product media is a video file.
+     *
+     * @return bool
+     */
+    public function isVideo()
+    {
+        if (empty($this->image)) {
+            return false;
+        }
+        $extension = strtolower(pathinfo($this->image, PATHINFO_EXTENSION));
+        return in_array($extension, ['mp4', 'webm', 'ogg', 'mov', 'avi']) || str_contains($this->image, '/video/upload/');
+    }
 }

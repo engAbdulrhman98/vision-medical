@@ -226,7 +226,7 @@
     <div class="flex-grow flex flex-col min-h-screen min-w-0">
         
         <!-- Top Header -->
-        <header id="admin-top-header" class="bg-white border-b border-slate-100 px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between shadow-sm sticky top-0 z-30">
+        <header id="admin-top-header" class="bg-white border-b border-slate-100 px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between shadow-sm sticky top-0 z-40 w-full">
             <div class="flex items-center gap-3 sm:gap-6 min-w-0">
                 <!-- Hamburger (mobile only) -->
                 <button onclick="openSidebar()" class="md:hidden w-9 h-9 flex items-center justify-center bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-lg transition-all shrink-0">
@@ -240,9 +240,10 @@
                     @foreach(\Mcamara\LaravelLocalization\Facades\LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
                         @if($localeCode !== \Mcamara\LaravelLocalization\Facades\LaravelLocalization::getCurrentLocale())
                             <a href="{{ \Mcamara\LaravelLocalization\Facades\LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}" 
-                               class="flex items-center gap-1.5 text-xs font-bold text-slate-700 hover:text-emerald-600 nav-link-transition px-3 py-2 bg-slate-50 hover:bg-slate-100 rounded-lg border border-slate-100/50">
+                               class="flex items-center gap-1.5 text-xs font-bold text-slate-700 hover:text-emerald-600 nav-link-transition px-2.5 py-2 sm:px-3 bg-slate-50 hover:bg-slate-100 rounded-lg border border-slate-100/50"
+                               title="{{ $properties['native'] }}">
                                 <i class="fa-solid fa-language text-emerald-600 text-sm"></i>
-                                <span>{{ $properties['native'] }}</span>
+                                <span class="hidden sm:inline">{{ $properties['native'] }}</span>
                             </a>
                         @endif
                     @endforeach
@@ -251,28 +252,56 @@
             
             <!-- Notification Alerts -->
             @if($pendingReviewsCount > 0 || $unreadMessagesCount > 0)
-                <div class="flex items-center gap-2 shrink-0">
+                <div class="flex items-center gap-2 sm:gap-3 shrink-0">
                     @if($pendingReviewsCount > 0)
                         <a href="{{ route('admin.reviews.index', ['status' => 'pending']) }}"
-                           class="flex items-center gap-2 bg-amber-50 text-amber-800 border border-amber-200 px-3 py-1.5 rounded-full hover:bg-amber-100 nav-link-transition text-xs font-semibold whitespace-nowrap">
-                            <span class="relative flex h-2 w-2 shrink-0">
+                           class="relative flex items-center justify-center gap-2 bg-amber-50 text-amber-800 border border-amber-200/50 hover:bg-amber-100 nav-link-transition text-xs font-semibold whitespace-nowrap
+                                  w-9 h-9 sm:w-auto sm:h-auto sm:px-3 sm:py-1.5 rounded-full"
+                           title="{{ trans_choice('messages.pending_reviews_alert', $pendingReviewsCount, ['count' => $pendingReviewsCount]) }}">
+                            
+                            <!-- Pulsing indicator (Desktop only) -->
+                            <span class="relative hidden sm:flex h-2 w-2 shrink-0">
                                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
                                 <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
                             </span>
-                            <i class="fa-solid fa-comments text-amber-600"></i>
-                            <span>{{ trans_choice('messages.pending_reviews_alert', $pendingReviewsCount, ['count' => $pendingReviewsCount]) }}</span>
+                            
+                            <!-- Icon -->
+                            <i class="fa-solid fa-comments text-amber-600 text-sm"></i>
+                            
+                            <!-- Text (Desktop only) -->
+                            <span class="hidden sm:inline">{{ trans_choice('messages.pending_reviews_alert', $pendingReviewsCount, ['count' => $pendingReviewsCount]) }}</span>
+                            
+                            <!-- Corner Badge (Mobile only) -->
+                            <span class="absolute -top-1 -right-1 flex h-4 w-4 shrink-0 sm:hidden">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-4 w-4 bg-amber-500 text-white text-[9px] font-black items-center justify-center">{{ $pendingReviewsCount }}</span>
+                            </span>
                         </a>
                     @endif
 
                     @if($unreadMessagesCount > 0)
                         <a href="{{ route('admin.contacts.index') }}"
-                           class="flex items-center gap-2 bg-rose-50 text-rose-800 border border-rose-200 px-3 py-1.5 rounded-full hover:bg-rose-100 nav-link-transition text-xs font-semibold whitespace-nowrap">
-                            <span class="relative flex h-2 w-2 shrink-0">
+                           class="relative flex items-center justify-center gap-2 bg-rose-50 text-rose-800 border border-rose-200/50 hover:bg-rose-100 nav-link-transition text-xs font-semibold whitespace-nowrap
+                                  w-9 h-9 sm:w-auto sm:h-auto sm:px-3 sm:py-1.5 rounded-full"
+                           title="{{ trans_choice('messages.unread_messages_alert', $unreadMessagesCount, ['count' => $unreadMessagesCount]) }}">
+                            
+                            <!-- Pulsing indicator (Desktop only) -->
+                            <span class="relative hidden sm:flex h-2 w-2 shrink-0">
                                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
                                 <span class="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
                             </span>
-                            <i class="fa-solid fa-envelope text-rose-600"></i>
-                            <span>{{ trans_choice('messages.unread_messages_alert', $unreadMessagesCount, ['count' => $unreadMessagesCount]) }}</span>
+                            
+                            <!-- Icon -->
+                            <i class="fa-solid fa-envelope text-rose-600 text-sm"></i>
+                            
+                            <!-- Text (Desktop only) -->
+                            <span class="hidden sm:inline">{{ trans_choice('messages.unread_messages_alert', $unreadMessagesCount, ['count' => $unreadMessagesCount]) }}</span>
+                            
+                            <!-- Corner Badge (Mobile only) -->
+                            <span class="absolute -top-1 -right-1 flex h-4 w-4 shrink-0 sm:hidden">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-4 w-4 bg-rose-500 text-white text-[9px] font-black items-center justify-center">{{ $unreadMessagesCount }}</span>
+                            </span>
                         </a>
                     @endif
                 </div>

@@ -157,7 +157,11 @@
                             <!-- Product Image Container -->
                             <div class="relative bg-slate-50/50 aspect-video overflow-hidden">
                                 @if($product->image)
-                                    <img src="{{ $product->image }}" alt="{{ $product->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-all-300">
+                                    @if($product->isVideo())
+                                        <video src="{{ $product->image }}" class="w-full h-full object-cover" autoplay loop muted playsinline></video>
+                                    @else
+                                        <img src="{{ $product->image }}" alt="{{ $product->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-all-300">
+                                    @endif
                                 @else
                                     <div class="w-full h-full flex flex-col items-center justify-center text-slate-300">
                                         <i class="fa-solid fa-briefcase-medical text-4xl"></i>

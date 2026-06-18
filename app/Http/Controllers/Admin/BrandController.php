@@ -32,8 +32,7 @@ class BrandController extends Controller
 
         $imagePath = null;
         if ($request->hasFile('image_file')) {
-            $path = $request->file('image_file')->store('brands', 'public');
-            $imagePath = asset('storage/' . $path);
+            $imagePath = \App\Services\CloudinaryService::upload($request->file('image_file'), 'brands');
         } elseif ($request->filled('image_url')) {
             $imagePath = $request->image_url;
         }
@@ -66,12 +65,15 @@ class BrandController extends Controller
 
         $imagePath = $brand->image;
         if ($request->hasFile('image_file')) {
-            if ($brand->image && str_contains($brand->image, 'storage/brands/')) {
-                $oldPath = Str::after($brand->image, 'storage/');
-                Storage::disk('public')->delete($oldPath);
+            if ($brand->image) {
+                if (str_contains($brand->image, 'res.cloudinary.com')) {
+                    \App\Services\CloudinaryService::delete($brand->image);
+                } elseif (str_contains($brand->image, 'storage/brands/')) {
+                    $oldPath = Str::after($brand->image, 'storage/');
+                    Storage::disk('public')->delete($oldPath);
+                }
             }
-            $path = $request->file('image_file')->store('brands', 'public');
-            $imagePath = asset('storage/' . $path);
+            $imagePath = \App\Services\CloudinaryService::upload($request->file('image_file'), 'brands');
         } elseif ($request->filled('image_url')) {
             $imagePath = $request->image_url;
         }
@@ -91,9 +93,13 @@ class BrandController extends Controller
 
     public function destroy(Brand $brand)
     {
-        if ($brand->image && str_contains($brand->image, 'storage/brands/')) {
-            $oldPath = Str::after($brand->image, 'storage/');
-            Storage::disk('public')->delete($oldPath);
+        if ($brand->image) {
+            if (str_contains($brand->image, 'res.cloudinary.com')) {
+                \App\Services\CloudinaryService::delete($brand->image);
+            } elseif (str_contains($brand->image, 'storage/brands/')) {
+                $oldPath = Str::after($brand->image, 'storage/');
+                Storage::disk('public')->delete($oldPath);
+            }
         }
 
         $name = $brand->getTranslation('name', 'ar');

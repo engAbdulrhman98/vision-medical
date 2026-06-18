@@ -31,7 +31,7 @@ class StoreProductRequest extends FormRequest
             'description_en' => 'required|string',
             'details_ar' => 'nullable|string',
             'details_en' => 'nullable|string',
-            'image_file' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,webm|max:20480',
             'image_url' => 'nullable|url',
             'in_stock' => 'nullable|boolean',
         ];
@@ -52,7 +52,7 @@ class StoreProductRequest extends FormRequest
             'description_en' => 'الوصف القصير بالإنجليزية',
             'details_ar' => 'المواصفات الفنية بالعربية',
             'details_en' => 'المواصفات الفنية بالإنجليزية',
-            'image_file' => 'صورة المنتج',
+            'image_file' => 'صورة أو فيديو المنتج',
             'image_url' => 'رابط الصورة',
             'in_stock' => 'حالة المخزون',
         ];

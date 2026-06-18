@@ -86,7 +86,7 @@
         </div>
 
         <!-- Activity Log Timeline (1 Column) — sticky on scroll -->
-        <div id="activity-log-sticky" class="sticky self-start bg-white border border-slate-100 rounded-2xl p-6 shadow-xs flex flex-col overflow-hidden z-[1]" style="top: 73px; max-height: calc(100vh - 90px);">
+        <div id="activity-log-sticky" class="lg:sticky lg:self-start bg-white border border-slate-100 rounded-2xl p-6 shadow-xs flex flex-col overflow-hidden z-10 lg:top-[96px] lg:max-h-[calc(100vh-120px)]">
             <h3 class="font-bold text-slate-950 text-base mb-5 flex items-center gap-2 pb-3 border-b border-slate-50 shrink-0">
                 <i class="fa-solid fa-history text-emerald-600"></i>
                 <span>{{ __('messages.activity_log') }}</span>

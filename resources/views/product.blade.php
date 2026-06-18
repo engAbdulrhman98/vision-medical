@@ -36,7 +36,11 @@
             <!-- Right: Product Image -->
             <div class="relative bg-slate-50/50 rounded-2xl overflow-hidden aspect-square flex items-center justify-center border border-slate-200/50 group">
                 @if($product->image)
-                    <img src="{{ $product->image }}" alt="{{ $product->name }}" class="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500">
+                    @if($product->isVideo())
+                        <video src="{{ $product->image }}" class="w-full h-full object-cover" autoplay loop muted playsinline controls></video>
+                    @else
+                        <img src="{{ $product->image }}" alt="{{ $product->name }}" class="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500">
+                    @endif
                 @else
                     <div class="flex flex-col items-center justify-center text-slate-300">
                         <i class="fa-solid fa-briefcase-medical text-8xl"></i>
@@ -253,7 +257,11 @@
                     <div class="group bg-white border border-slate-200/80 rounded-3xl overflow-hidden shadow-xs hover:shadow-xl transition-all-300 flex flex-col justify-between">
                         <div class="bg-slate-50/50 aspect-video overflow-hidden relative">
                             @if($rel->image)
-                                <img src="{{ $rel->image }}" alt="{{ $rel->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-all-300">
+                                @if($rel->isVideo())
+                                    <video src="{{ $rel->image }}" class="w-full h-full object-cover" autoplay loop muted playsinline></video>
+                                @else
+                                    <img src="{{ $rel->image }}" alt="{{ $rel->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-all-300">
+                                @endif
                             @else
                                 <div class="w-full h-full flex items-center justify-center text-slate-300">
                                     <i class="fa-solid fa-briefcase-medical text-3xl"></i>

@@ -32,8 +32,7 @@ class CategoryController extends Controller
 
         $imagePath = null;
         if ($request->hasFile('image_file')) {
-            $path = $request->file('image_file')->store('categories', 'public');
-            $imagePath = asset('storage/' . $path);
+            $imagePath = \App\Services\CloudinaryService::upload($request->file('image_file'), 'categories');
         } elseif ($request->filled('image_url')) {
             $imagePath = $request->image_url;
         }
@@ -66,12 +65,15 @@ class CategoryController extends Controller
 
         $imagePath = $category->image;
         if ($request->hasFile('image_file')) {
-            if ($category->image && str_contains($category->image, 'storage/categories/')) {
-                $oldPath = Str::after($category->image, 'storage/');
-                Storage::disk('public')->delete($oldPath);
+            if ($category->image) {
+                if (str_contains($category->image, 'res.cloudinary.com')) {
+                    \App\Services\CloudinaryService::delete($category->image);
+                } elseif (str_contains($category->image, 'storage/categories/')) {
+                    $oldPath = Str::after($category->image, 'storage/');
+                    Storage::disk('public')->delete($oldPath);
+                }
             }
-            $path = $request->file('image_file')->store('categories', 'public');
-            $imagePath = asset('storage/' . $path);
+            $imagePath = \App\Services\CloudinaryService::upload($request->file('image_file'), 'categories');
         } elseif ($request->filled('image_url')) {
             $imagePath = $request->image_url;
         }
@@ -91,9 +93,13 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
-        if ($category->image && str_contains($category->image, 'storage/categories/')) {
-            $oldPath = Str::after($category->image, 'storage/');
-            Storage::disk('public')->delete($oldPath);
+        if ($category->image) {
+            if (str_contains($category->image, 'res.cloudinary.com')) {
+                \App\Services\CloudinaryService::delete($category->image);
+            } elseif (str_contains($category->image, 'storage/categories/')) {
+                $oldPath = Str::after($category->image, 'storage/');
+                Storage::disk('public')->delete($oldPath);
+            }
         }
 
         $name = $category->getTranslation('name', 'ar');
