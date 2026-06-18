@@ -1,3 +1,5 @@
+providers = []
+
 [phases.setup]
 nixPkgs = [
     "php84",
@@ -15,15 +17,21 @@ nixPkgs = [
     "php84Extensions.tokenizer",
     "php84Extensions.xml",
     "php84Extensions.zip",
-    "composer"
+    "composer",
+    "nodejs_22",
+    "nodePackages.npm"
 ]
 
 [phases.install]
 cmds = [
-    "composer install --no-dev --optimize-autoloader --no-interaction"
+    "composer install --no-dev --optimize-autoloader --no-interaction",
+    "npm ci --ignore-scripts"
 ]
 
-# No build phase artisan commands — they run at start time with correct env vars
+[phases.build]
+cmds = [
+    "npm run build"
+]
 
 [start]
 cmd = "php artisan migrate --force; php artisan storage:link 2>/dev/null; php -S 0.0.0.0:$PORT -t public public/router.php"
