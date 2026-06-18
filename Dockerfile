@@ -1,4 +1,22 @@
-FROM php:8.4-fpm
+# ══════════════════════════════════════════════════════════════════════════════
+# Stage 1: Build frontend assets (Node.js 18)
+# ══════════════════════════════════════════════════════════════════════════════
+FROM node:18 AS build
+
+WORKDIR /app
+
+# Cache npm dependencies separately
+COPY package.json package-lock.json ./
+RUN npm install
+
+# Copy all source files and build Vite assets
+COPY . .
+RUN npm run build
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Stage 2: PHP runtime (8.2-fpm + Nginx + Supervisor)
+# ══════════════════════════════════════════════════════════════════════════════
+FROM php:8.2-fpm
 
 # Install system dependencies + Nginx + Supervisor
 RUN apt-get update && apt-get install -y \
@@ -27,26 +45,16 @@ RUN apt-get update && apt-get install -y \
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Install Node.js 22
-RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
-    && apt-get install -y nodejs \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
 WORKDIR /app
-
-# ── npm install (cached unless package.json changes) ─────────────────────────
-COPY package.json package-lock.json ./
-RUN npm ci
 
 # ── Copy all project files ────────────────────────────────────────────────────
 COPY . .
 
-# ── Composer install (needs project files for post-install scripts) ───────────
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
+# ── Copy built frontend assets from Stage 1 ──────────────────────────────────
+COPY --from=build /app/public/build /app/public/build
 
-# ── Build Vite assets ─────────────────────────────────────────────────────────
-RUN npm run build && rm -rf node_modules
+# ── Composer install (production, no dev deps) ────────────────────────────────
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
 
 # Set up directories and permissions
 RUN mkdir -p storage/framework/cache/data \
@@ -59,8 +67,7 @@ RUN mkdir -p storage/framework/cache/data \
 
 # Configure Nginx
 COPY docker/nginx.conf /etc/nginx/sites-available/default
-RUN ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default \
-    && rm -f /etc/nginx/sites-enabled/default 2>/dev/null || true \
+RUN rm -f /etc/nginx/sites-enabled/default \
     && ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
 # Configure Supervisor
