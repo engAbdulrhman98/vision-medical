@@ -33,31 +33,31 @@ RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
 
 WORKDIR /app
 
-# Copy project files
-COPY . .
-
-# Install PHP dependencies
+# ── Layer 1: PHP deps (cached unless composer.json changes) ──────────────────
+COPY composer.json composer.lock ./
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
 
-# Install Node.js dependencies and build assets
-RUN npm ci && npm run build && rm -rf node_modules
+# ── Layer 2: npm deps (cached unless package.json changes) ───────────────────
+COPY package.json package-lock.json ./
+RUN npm ci
+
+# ── Layer 3: ALL source files (cache busts Vite build layer) ─────────────────
+COPY . .
+
+# Ensure storage/framework/views exists for Tailwind @source scanning
+RUN mkdir -p storage/framework/views storage/framework/cache/data \
+             storage/framework/sessions storage/logs bootstrap/cache
+
+# ── Layer 4: Build Vite assets (always re-runs when any source file changes) ─
+RUN npm run build && rm -rf node_modules
 
 # Set permissions
-RUN mkdir -p storage/framework/cache/data \
-    storage/framework/sessions \
-    storage/framework/views \
-    storage/logs \
-    bootstrap/cache \
-    && chmod -R 775 storage bootstrap/cache \
-    && chown -R www-data:www-data storage bootstrap/cache \
-    || true
+RUN chmod -R 775 storage bootstrap/cache
 
-# Copy startup script and make it executable
+# Copy and configure startup script
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
-# Expose port (Railway sets $PORT)
 EXPOSE 8000
 
-# Use startup script
 CMD ["/bin/bash", "/start.sh"]

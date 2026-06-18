@@ -14,10 +14,14 @@ if [ -d "public/build" ]; then
     ls -la public/build/
     echo ""
     echo "Assets:"
-    ls -la public/build/assets/ 2>/dev/null || echo "✗ public/build/assets/ missing!"
+    ls -lh public/build/assets/ 2>/dev/null || echo "✗ public/build/assets/ missing!"
+    echo ""
+    echo "CSS file size:"
+    wc -c public/build/assets/*.css 2>/dev/null || echo "No CSS files"
 else
-    echo "✗ public/build/ DOES NOT EXIST!"
+    echo "✗ public/build/ DOES NOT EXIST - Vite build failed!"
 fi
+
 echo ""
 
 # Create storage directories if missing
