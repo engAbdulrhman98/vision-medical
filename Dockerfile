@@ -33,26 +33,26 @@ RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
 
 WORKDIR /app
 
-# ── Layer 1: PHP deps (cached unless composer.json changes) ──────────────────
-COPY composer.json composer.lock ./
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
-
-# ── Layer 2: npm deps (cached unless package.json changes) ───────────────────
+# ── Layer 1: npm deps (cached unless package.json changes) ───────────────────
 COPY package.json package-lock.json ./
 RUN npm ci
 
-# ── Layer 3: ALL source files (cache busts Vite build layer) ─────────────────
+# ── Layer 2: ALL source files ─────────────────────────────────────────────────
 COPY . .
 
-# Ensure storage/framework/views exists for Tailwind @source scanning
-RUN mkdir -p storage/framework/views storage/framework/cache/data \
-             storage/framework/sessions storage/logs bootstrap/cache
+# ── Layer 3: PHP deps + post-install scripts (needs project files) ────────────
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
 
-# ── Layer 4: Build Vite assets (always re-runs when any source file changes) ─
+# ── Layer 4: Build Vite assets ────────────────────────────────────────────────
 RUN npm run build && rm -rf node_modules
 
 # Set permissions
-RUN chmod -R 775 storage bootstrap/cache
+RUN mkdir -p storage/framework/cache/data \
+             storage/framework/sessions \
+             storage/framework/views \
+             storage/logs \
+             bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
 
 # Copy and configure startup script
 COPY start.sh /start.sh
