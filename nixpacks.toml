@@ -23,12 +23,7 @@ cmds = [
     "composer install --no-dev --optimize-autoloader --no-interaction"
 ]
 
-[phases.build]
-cmds = [
-    "php artisan config:cache",
-    "php artisan route:clear",
-    "php artisan view:cache"
-]
+# No build phase artisan commands — they run at start time with correct env vars
 
 [start]
-cmd = "php artisan migrate --force; php artisan db:seed --force 2>/dev/null; php artisan storage:link 2>/dev/null; php -S 0.0.0.0:$PORT -t public"
+cmd = "php artisan migrate --force; php artisan storage:link 2>/dev/null; php -S 0.0.0.0:$PORT -t public public/router.php"
