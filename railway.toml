@@ -4,3 +4,5 @@ healthcheckPath = "/health.php"
 healthcheckTimeout = 120
 restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 3
+[build]
+builder = "nixpacks"
