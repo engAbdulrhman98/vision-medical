@@ -52,8 +52,12 @@ RUN mkdir -p storage/framework/cache/data \
     && chown -R www-data:www-data storage bootstrap/cache \
     || true
 
+# Copy startup script and make it executable
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
+
 # Expose port (Railway sets $PORT)
 EXPOSE 8000
 
-# Start: run migrations then start PHP server with router
-CMD sh -c "php artisan migrate --force; php artisan storage:link 2>/dev/null || true; php -S 0.0.0.0:${PORT:-8000} -t public public/router.php"
+# Use startup script
+CMD ["/bin/bash", "/start.sh"]
