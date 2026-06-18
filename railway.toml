@@ -6,3 +6,5 @@ restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 3
 [build]
 builder = "nixpacks"
+[variables]
+NIXPACKS_NODE_VERSION = "22"
