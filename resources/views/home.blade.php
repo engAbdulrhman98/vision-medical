@@ -440,7 +440,7 @@
         </div>
     <!-- Dynamic Categories Section -->
     @if(!$categories->isEmpty())
-        <div class="border-t border-slate-200/80 pt-16 mb-20">
+        <div id="categories" class="border-t border-slate-200/80 pt-16 mb-20 scroll-mt-24">
             <div class="text-center max-w-3xl mx-auto space-y-4 mb-12">
                 <h2 class="text-3xl font-black text-slate-900 tracking-tight">
                     {{ __('messages.categories_title') }}
@@ -488,7 +488,7 @@
 
     <!-- Dynamic Brands Section -->
     @if(!$brands->isEmpty())
-        <div class="border-t border-slate-200/80 pt-16 mb-20">
+        <div id="brands" class="border-t border-slate-200/80 pt-16 mb-20 scroll-mt-24">
             <div class="text-center max-w-3xl mx-auto space-y-4 mb-12">
                 <h2 class="text-3xl font-black text-slate-900 tracking-tight">
                     {{ __('messages.brands_title') }}
