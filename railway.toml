@@ -1,5 +1,5 @@
 [deploy]
-
+startCommand = "php artisan config:cache && php artisan migrate --force && node /assets/scripts/prestart.mjs /assets/nginx.template.conf /nginx.conf && (php-fpm -y /assets/php-fpm.conf & nginx -c /nginx.conf)"
 healthcheckPath = "/health.php"
 healthcheckTimeout = 120
 restartPolicyType = "on_failure"
