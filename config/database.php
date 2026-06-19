@@ -60,8 +60,9 @@ return [
             'strict' => true,
             'engine' => null,
             'options' => [
-                \PDO::MYSQL_ATTR_SSL_CA => null,
                 \PDO::ATTR_EMULATE_PREPARES => true,
+                \PDO::MYSQL_ATTR_SSL_CA => null, // تأكد من وضع null هنا
+                \PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false, // إضافة هذا السطر مهمة
             ],
         ],
         'mariadb' => [
