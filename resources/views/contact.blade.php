@@ -61,6 +61,17 @@
                                 <span class="text-sm font-black text-slate-900 block mt-0.5 break-all">{{ $email }}</span>
                             </div>
                         </a>
+
+                        <!-- Working Hours Info Card -->
+                        <div class="flex items-center gap-4 p-4 bg-amber-50/40 rounded-2xl border border-amber-100/40 shadow-xxs">
+                            <div class="w-12 h-12 bg-amber-500 rounded-xl flex items-center justify-center text-white text-xl shadow-md shadow-amber-500/15 shrink-0">
+                                <i class="fa-solid fa-business-time"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs font-bold text-amber-600 block">{{ app()->getLocale() == 'ar' ? 'ساعات العمل' : 'Working Hours' }}</span>
+                                <span class="text-sm font-black text-slate-950 block mt-0.5">{{ \App\Models\Setting::getWorkingHoursDisplay(app()->getLocale()) }}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

@@ -79,6 +79,44 @@
                         <span>{{ __('messages.home') }}</span>
                         <span class="absolute bottom-0 left-0 w-full h-0.5 bg-emerald-500 scale-x-0 transition-transform duration-300 origin-center {{ $isHomeActive ? 'scale-x-100' : 'hover:scale-x-100' }}"></span>
                     </a>
+
+                    <!-- Categories Hover Dropdown -->
+                    @if(isset($globalCategories) && !$globalCategories->isEmpty())
+                    <div class="relative group">
+                        <button class="flex items-center gap-1.5 text-sm font-semibold py-2 text-slate-600 hover:text-emerald-500 transition-all duration-300 focus:outline-none cursor-pointer">
+                            <span>{{ __('messages.categories_title') }}</span>
+                            <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-300 group-hover:rotate-180"></i>
+                        </button>
+                        <div class="absolute {{ app()->getLocale() == 'ar' ? 'right-0' : 'left-0' }} top-full mt-1 w-64 bg-white border border-slate-200/80 rounded-2xl shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform translate-y-2 group-hover:translate-y-0">
+                            @foreach($globalCategories as $cat)
+                                <a href="{{ route('store', ['category' => $cat->slug]) }}" 
+                                   class="flex items-center justify-between px-4 py-2.5 text-sm text-slate-700 hover:bg-emerald-50/50 hover:text-emerald-700 transition-colors duration-205">
+                                    <span class="font-semibold">{{ $cat->name }}</span>
+                                    <span class="bg-slate-100 text-slate-500 text-xxs font-bold px-2.5 py-0.5 rounded-full">{{ $cat->products_count }}</span>
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
+
+                    <!-- Brands Hover Dropdown -->
+                    @if(isset($globalBrands) && !$globalBrands->isEmpty())
+                    <div class="relative group">
+                        <button class="flex items-center gap-1.5 text-sm font-semibold py-2 text-slate-600 hover:text-emerald-500 transition-all duration-300 focus:outline-none cursor-pointer">
+                            <span>{{ __('messages.brands_title') }}</span>
+                            <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-300 group-hover:rotate-180"></i>
+                        </button>
+                        <div class="absolute {{ app()->getLocale() == 'ar' ? 'right-0' : 'left-0' }} top-full mt-1 w-56 bg-white border border-slate-200/80 rounded-2xl shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform translate-y-2 group-hover:translate-y-0">
+                            @foreach($globalBrands as $brand)
+                                <a href="{{ route('store', ['brand' => $brand->slug]) }}" 
+                                   class="block px-4 py-2.5 text-sm text-slate-700 hover:bg-emerald-50/50 hover:text-emerald-700 font-semibold transition-colors duration-205">
+                                    {{ $brand->name }}
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
+
                     <a href="{{ route('store') }}" class="relative text-sm font-semibold transition-all duration-300 py-2 hover:text-emerald-500 {{ Request::is('*store') ? 'text-emerald-600' : 'text-slate-600' }}">
                         <span>{{ __('messages.store') }}</span>
                         <span class="absolute bottom-0 left-0 w-full h-0.5 bg-emerald-500 scale-x-0 transition-transform duration-300 origin-center {{ Request::is('*store') ? 'scale-x-100' : 'hover:scale-x-100' }}"></span>
@@ -134,6 +172,41 @@
         <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 bg-white px-4 py-4 space-y-2 shadow-lg absolute w-full left-0 animate-fade-in-up">
             <a href="{{ route('home') }}" class="block px-4 py-2.5 rounded-xl text-base font-semibold {{ $isHomeActive ? 'bg-emerald-50 text-emerald-700' : 'text-slate-600 hover:bg-slate-50' }}">{{ __('messages.home') }}</a>
             <a href="{{ route('store') }}" class="block px-4 py-2.5 rounded-xl text-base font-semibold {{ Request::is('*store') ? 'bg-emerald-50 text-emerald-700' : 'text-slate-600 hover:bg-slate-50' }}">{{ __('messages.store') }}</a>
+
+            <!-- Mobile Categories Accordion -->
+            @if(isset($globalCategories) && !$globalCategories->isEmpty())
+            <details class="group/mobile-cat border-t border-slate-100 pt-2">
+                <summary class="flex items-center justify-between px-4 py-2.5 rounded-xl text-base font-semibold text-slate-600 hover:bg-slate-50 cursor-pointer list-none select-none">
+                    <span>{{ __('messages.categories_title') }}</span>
+                    <i class="fa-solid fa-chevron-down text-xs transition-transform duration-200 group-open/mobile-cat:rotate-180"></i>
+                </summary>
+                <div class="px-6 py-2 space-y-1 bg-slate-50/50 rounded-xl mt-1">
+                    @foreach($globalCategories as $cat)
+                        <a href="{{ route('store', ['category' => $cat->slug]) }}" class="block px-3 py-2 text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">
+                            {{ $cat->name }} ({{ $cat->products_count }})
+                        </a>
+                    @endforeach
+                </div>
+            </details>
+            @endif
+
+            <!-- Mobile Brands Accordion -->
+            @if(isset($globalBrands) && !$globalBrands->isEmpty())
+            <details class="group/mobile-brand border-t border-slate-100 pt-2">
+                <summary class="flex items-center justify-between px-4 py-2.5 rounded-xl text-base font-semibold text-slate-600 hover:bg-slate-50 cursor-pointer list-none select-none">
+                    <span>{{ __('messages.brands_title') }}</span>
+                    <i class="fa-solid fa-chevron-down text-xs transition-transform duration-200 group-open/mobile-brand:rotate-180"></i>
+                </summary>
+                <div class="px-6 py-2 space-y-1 bg-slate-50/50 rounded-xl mt-1">
+                    @foreach($globalBrands as $brand)
+                        <a href="{{ route('store', ['brand' => $brand->slug]) }}" class="block px-3 py-2 text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">
+                            {{ $brand->name }}
+                        </a>
+                    @endforeach
+                </div>
+            </details>
+            @endif
+
             <a href="{{ route('about') }}" class="block px-4 py-2.5 rounded-xl text-base font-semibold {{ Request::is('*about') ? 'bg-emerald-50 text-emerald-700' : 'text-slate-600 hover:bg-slate-50' }}">{{ __('messages.about_us') }}</a>
             <a href="{{ route('contact') }}" class="block px-4 py-2.5 rounded-xl text-base font-semibold {{ Request::is('*contact') ? 'bg-emerald-50 text-emerald-700' : 'text-slate-600 hover:bg-slate-50' }}">{{ __('messages.contact_us') }}</a>
         </div>
@@ -168,7 +241,7 @@
         <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-emerald-950/20 via-transparent to-transparent pointer-events-none"></div>
         
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
                 
                 <!-- Col 1: Store Intro -->
                 <div class="space-y-6">
@@ -222,7 +295,9 @@
 
                 <!-- Col 2: Navigation Links -->
                 <div class="space-y-6">
-                    <h3 class="text-white font-bold text-lg tracking-wide relative after:content-[''] after:absolute after:bottom-0 after:start-0 after:w-8 after:h-0.5 after:bg-emerald-500 pb-2">{{ __('messages.home') }}</h3>
+                    <h3 class="text-white font-bold text-lg tracking-wide relative after:content-[''] after:absolute after:bottom-0 after:start-0 after:w-8 after:h-0.5 after:bg-emerald-500 pb-2">
+                        {{ app()->getLocale() == 'ar' ? 'روابط سريعة' : 'Quick Links' }}
+                    </h3>
                     <ul class="space-y-3 text-sm">
                         <li>
                             <a href="{{ route('home') }}" class="hover:text-emerald-400 flex items-center gap-2 transition-all-300">
@@ -255,7 +330,29 @@
                     </ul>
                 </div>
 
-                <!-- Col 3: Contact Info -->
+                <!-- Col 3: Categories Links -->
+                <div class="space-y-6">
+                    <h3 class="text-white font-bold text-lg tracking-wide relative after:content-[''] after:absolute after:bottom-0 after:start-0 after:w-8 after:h-0.5 after:bg-emerald-500 pb-2">
+                        {{ __('messages.categories_title') }}
+                    </h3>
+                    @if(isset($globalCategories) && !$globalCategories->isEmpty())
+                        <ul class="space-y-3 text-sm">
+                            @foreach($globalCategories->take(5) as $cat)
+                                <li>
+                                    <a href="{{ route('store', ['category' => $cat->slug]) }}" class="hover:text-emerald-400 flex items-center gap-2 transition-all-300">
+                                        <i class="fa-solid fa-chevron-left text-xxs opacity-50 rtl:block ltr:hidden"></i>
+                                        <i class="fa-solid fa-chevron-right text-xxs opacity-50 ltr:block rtl:hidden"></i>
+                                        <span>{{ $cat->name }}</span>
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <p class="text-xs text-slate-500">--</p>
+                    @endif
+                </div>
+
+                <!-- Col 4: Contact Info & Working Hours -->
                 <div class="space-y-6">
                     <h3 class="text-white font-bold text-lg tracking-wide relative after:content-[''] after:absolute after:bottom-0 after:start-0 after:w-8 after:h-0.5 after:bg-emerald-500 pb-2">{{ __('messages.contact_us') }}</h3>
                     <ul class="space-y-4 text-sm text-slate-400">
@@ -284,6 +381,17 @@
                             <div class="space-y-0.5">
                                 <span class="text-xxs text-slate-500 block font-bold uppercase">{{ __('messages.whatsapp_channel') }}</span>
                                 <a href="https://wa.me/{{ \App\Models\Setting::getValue('whatsapp', '201001234567') }}" class="hover:text-emerald-400 transition-all-300 block font-semibold text-white" dir="ltr">+{{ \App\Models\Setting::getValue('whatsapp', '201001234567') }}</a>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3.5">
+                            <div class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0 border border-amber-500/10">
+                                <i class="fa-solid fa-clock"></i>
+                            </div>
+                            <div class="space-y-0.5">
+                                <span class="text-xxs text-slate-500 block font-bold uppercase">{{ app()->getLocale() == 'ar' ? 'مواعيد العمل' : 'Working Hours' }}</span>
+                                <span class="block font-semibold text-white leading-relaxed text-xs">
+                                    {{ \App\Models\Setting::getWorkingHoursDisplay(app()->getLocale()) }}
+                                </span>
                             </div>
                         </li>
                     </ul>

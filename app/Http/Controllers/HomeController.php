@@ -20,7 +20,9 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $featuredProducts = Product::where('in_stock', true)->with(['category', 'brand'])->latest()->limit(6)->get();
-        return view('home', compact('featuredProducts'));
+        $categories = Category::withCount('products')->get();
+        $brands = Brand::get();
+        return view('home', compact('featuredProducts', 'categories', 'brands'));
     }
 
     /**

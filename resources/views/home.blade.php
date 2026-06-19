@@ -284,7 +284,7 @@
                     </div>
                     <div>
                         <span class="text-slate-500 text-[10px] block font-bold uppercase tracking-wider">{{ app()->getLocale() == 'ar' ? 'ساعات العمل' : 'Working Hours' }}</span>
-                        <span class="text-sm font-bold">{{ app()->getLocale() == 'ar' ? 'السبت - الخميس: 9:00 ص - 6:00 م' : 'Sat - Thu: 9:00 AM - 6:00 PM' }}</span>
+                        <span class="text-sm font-bold">{{ \App\Models\Setting::getWorkingHoursDisplay(app()->getLocale()) }}</span>
                     </div>
                 </div>
             </div>
@@ -438,7 +438,85 @@
                 </button>
             </form>
         </div>
-    </div>
+    <!-- Dynamic Categories Section -->
+    @if(!$categories->isEmpty())
+        <div class="border-t border-slate-200/80 pt-16 mb-20">
+            <div class="text-center max-w-3xl mx-auto space-y-4 mb-12">
+                <h2 class="text-3xl font-black text-slate-900 tracking-tight">
+                    {{ __('messages.categories_title') }}
+                </h2>
+                <p class="text-slate-500 text-sm leading-relaxed">
+                    {{ app()->getLocale() == 'ar' 
+                        ? 'تصفح الأجهزة والمستلزمات الطبية الموزعة حسب التخصصات الطبية المختلفة.' 
+                        : 'Browse medical devices and supplies categorized by different medical specialties.' }}
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                @foreach($categories as $category)
+                    <a href="{{ route('store', ['category' => $category->slug]) }}" 
+                       class="group relative h-80 rounded-[2rem] overflow-hidden border border-slate-200/60 shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-end p-8">
+                        <!-- Background Image -->
+                        <div class="absolute inset-0 bg-slate-900">
+                            @if($category->image)
+                                <img src="{{ $category->image }}" alt="{{ $category->name }}" class="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-500">
+                            @else
+                                <div class="w-full h-full bg-gradient-to-br from-slate-800 to-emerald-950 opacity-80"></div>
+                            @endif
+                        </div>
+                        
+                        <!-- Overlay Gradient -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/40 to-transparent z-10"></div>
+                        
+                        <!-- Content -->
+                        <div class="relative z-20 space-y-2">
+                            <span class="inline-flex items-center gap-1.5 bg-emerald-500 text-slate-950 text-xxs font-black px-2.5 py-1 rounded-lg">
+                                {{ $category->products_count }} {{ app()->getLocale() == 'ar' ? 'منتج' : 'Products' }}
+                            </span>
+                            <h3 class="text-xl font-black text-white group-hover:text-emerald-400 transition-colors">
+                                {{ $category->name }}
+                            </h3>
+                            <p class="text-slate-300 text-xs line-clamp-2 leading-relaxed">
+                                {{ $category->description }}
+                            </p>
+                        </div>
+                    </a>
+                @endforeach
+            </div>
+        </div>
+    @endif
+
+    <!-- Dynamic Brands Section -->
+    @if(!$brands->isEmpty())
+        <div class="border-t border-slate-200/80 pt-16 mb-20">
+            <div class="text-center max-w-3xl mx-auto space-y-4 mb-12">
+                <h2 class="text-3xl font-black text-slate-900 tracking-tight">
+                    {{ __('messages.brands_title') }}
+                </h2>
+                <p class="text-slate-500 text-sm leading-relaxed">
+                    {{ app()->getLocale() == 'ar' 
+                        ? 'شركاؤنا من كبرى الشركات العالمية المصنعة للأجهزة والحلول الطبية.' 
+                        : 'Our partners from the leading global manufacturers of medical devices and solutions.' }}
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+                @foreach($brands as $brand)
+                    <a href="{{ route('store', ['brand' => $brand->slug]) }}" 
+                       class="group bg-white border border-slate-200/80 rounded-2xl p-6 flex flex-col items-center justify-center text-center hover:border-emerald-500/30 hover:shadow-lg transition-all duration-300 h-28 relative">
+                        @if($brand->image && !str_contains($brand->image, 'placeholder'))
+                            <img src="{{ $brand->image }}" alt="{{ $brand->name }}" class="max-h-12 max-w-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300">
+                        @else
+                            <span class="text-sm font-black text-slate-700 group-hover:text-emerald-600 transition-colors">{{ $brand->name }}</span>
+                        @endif
+                        <span class="absolute bottom-2 text-[9px] font-bold text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                            {{ app()->getLocale() == 'ar' ? 'عرض المنتجات' : 'View Products' }}
+                        </span>
+                    </a>
+                @endforeach
+            </div>
+        </div>
+    @endif
 
     <!-- Featured Store Preview Section -->
     <div class="border-t border-slate-200/80 pt-16 mb-16">
