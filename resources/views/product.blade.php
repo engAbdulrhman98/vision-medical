@@ -106,7 +106,7 @@
                     @if($product->in_stock)
                         <!-- Primary Order WhatsApp -->
                         @php
-                            $whatsNumber = \App\Models\Setting::getValue('whatsapp', '966501234567');
+                            $whatsNumber = \App\Models\Setting::getValue('whatsapp', '201001234567');
                             $whatsText = __('messages.whats_prefilled_text', [
                                 'name' => $product->name,
                                 'price' => number_format($product->price, 2),

@@ -39,8 +39,8 @@
                     </a>
                     
                     @php
-                        $mWhatsapp = \App\Models\Setting::getValue('maintenance_whatsapp', \App\Models\Setting::getValue('whatsapp', '966507654321'));
-                        $mPhone = \App\Models\Setting::getValue('maintenance_phone', \App\Models\Setting::getValue('store_phone', '+966 50 765 4321'));
+                        $mWhatsapp = \App\Models\Setting::getValue('maintenance_whatsapp', \App\Models\Setting::getValue('whatsapp', '201117654321'));
+                        $mPhone = \App\Models\Setting::getValue('maintenance_phone', \App\Models\Setting::getValue('store_phone', '+20 111 765 4321'));
                     @endphp
                     <a href="https://wa.me/{{ $mWhatsapp }}?text={{ urlencode(app()->getLocale() == 'ar' ? 'مرحباً فيجن ميديكال، أرغب في الاستفسار عن خدمات صيانة الأجهزة الطبية.' : 'Hello Vision Medical, I would like to inquire about medical maintenance services.') }}" 
                        target="_blank"

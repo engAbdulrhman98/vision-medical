@@ -102,8 +102,8 @@ class HomeController extends Controller
     public function contact()
     {
         $email = Setting::getValue('store_email', 'info@vision-medical.com');
-        $phone = Setting::getValue('store_phone', '+966 50 123 4567');
-        $whatsapp = Setting::getValue('whatsapp', '966501234567');
+        $phone = Setting::getValue('store_phone', '+20 100 123 4567');
+        $whatsapp = Setting::getValue('whatsapp', '201001234567');
         $mapLink = Setting::getValue('company_map_link', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3624.471946808796!2d46.6713917!3d24.7135517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2f03890d48939b%3A0xf64f7dfd3d4b68db!2sRiyadh%20Saudi%20Arabia!5e0!3m2!1sen!2ssa!4v1717540000000!5m2!1sen!2ssa');
         
         return view('contact', compact('email', 'phone', 'whatsapp', 'mapLink'));

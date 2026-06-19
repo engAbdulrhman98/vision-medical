@@ -265,7 +265,7 @@
                             </div>
                             <div class="space-y-0.5">
                                 <span class="text-xxs text-slate-500 block font-bold uppercase">{{ __('messages.call_channel') }}</span>
-                                <a href="tel:{{ \App\Models\Setting::getValue('store_phone', '+966 50 123 4567') }}" class="hover:text-emerald-400 transition-all-300 block font-semibold text-white" dir="ltr">{{ \App\Models\Setting::getValue('store_phone', '+966 50 123 4567') }}</a>
+                                <a href="tel:{{ \App\Models\Setting::getValue('store_phone', '+20 100 123 4567') }}" class="hover:text-emerald-400 transition-all-300 block font-semibold text-white" dir="ltr">{{ \App\Models\Setting::getValue('store_phone', '+20 100 123 4567') }}</a>
                             </div>
                         </li>
                         <li class="flex items-start gap-3.5">
@@ -283,7 +283,7 @@
                             </div>
                             <div class="space-y-0.5">
                                 <span class="text-xxs text-slate-500 block font-bold uppercase">{{ __('messages.whatsapp_channel') }}</span>
-                                <a href="https://wa.me/{{ \App\Models\Setting::getValue('whatsapp', '966501234567') }}" class="hover:text-emerald-400 transition-all-300 block font-semibold text-white" dir="ltr">+{{ \App\Models\Setting::getValue('whatsapp', '966501234567') }}</a>
+                                <a href="https://wa.me/{{ \App\Models\Setting::getValue('whatsapp', '201001234567') }}" class="hover:text-emerald-400 transition-all-300 block font-semibold text-white" dir="ltr">+{{ \App\Models\Setting::getValue('whatsapp', '201001234567') }}</a>
                             </div>
                         </li>
                     </ul>
@@ -309,7 +309,7 @@
     </footer>
 
     <!-- Floating WhatsApp Button -->
-    <a href="https://wa.me/{{ \App\Models\Setting::getValue('whatsapp', '966501234567') }}?text={{ urlencode(__('messages.whats_general_text')) }}" 
+    <a href="https://wa.me/{{ \App\Models\Setting::getValue('whatsapp', '201001234567') }}?text={{ urlencode(__('messages.whats_general_text')) }}" 
        target="_blank" 
        class="fixed bottom-6 right-6 z-50 w-14 h-14 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full flex items-center justify-center shadow-lg hover:shadow-xl hover:scale-110 transition-all-300 group animate-pulse-glow"
        title="{{ __('messages.whatsapp_tooltip') }}">
