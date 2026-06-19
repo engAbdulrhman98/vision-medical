@@ -438,6 +438,7 @@
                 </button>
             </form>
         </div>
+    </div>
     <!-- Dynamic Categories Section -->
     @if(!$categories->isEmpty())
         <div id="categories" class="border-t border-slate-200/80 pt-16 mb-20 scroll-mt-24">
