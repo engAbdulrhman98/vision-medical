@@ -90,6 +90,7 @@ return [
     'opening_time_placeholder' => '08:00',
     'closing_time_label' => 'وقت الإغلاق',
     'closing_time_placeholder' => '17:00',
+    'address_label' => 'العنوان بالتفصيل',
     'address_placeholder' => 'المنطقة / الشارع / رقم المبنى...',
     'place_name_label' => 'اسم المكان',
     'place_name_placeholder' => 'اسم المستشفى / العيادة / المركز الطبي...',
