@@ -504,9 +504,9 @@
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
                 @foreach($brands as $brand)
                     <a href="{{ route('store', ['brand' => $brand->slug]) }}" 
-                       class="group bg-white border border-slate-200/80 rounded-2xl p-6 flex flex-col items-center justify-center text-center hover:border-emerald-500/30 hover:shadow-lg transition-all duration-300 h-40 relative">
+                       class="group bg-white border border-slate-200/80 rounded-2xl p-6 flex flex-col items-center justify-center text-center hover:border-emerald-500/30 hover:shadow-lg transition-all duration-300 h-52 relative">
                         @if($brand->image && !str_contains($brand->image, 'placeholder'))
-                            <img src="{{ $brand->image }}" alt="{{ $brand->name }}" class="max-h-20 max-w-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300">
+                            <img src="{{ $brand->image }}" alt="{{ $brand->name }}" class="max-h-32 max-w-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300">
                         @else
                             <span class="text-sm font-black text-slate-700 group-hover:text-emerald-600 transition-colors">{{ $brand->name }}</span>
                         @endif
