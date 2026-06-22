@@ -100,8 +100,32 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => ['ar' => 'فيليبس ميديكال (Philips)', 'en' => 'Philips Medical'],
                 'slug' => 'philips-medical',
-                'description' => ['ar' => 'أجهزة التنفس والرعاية الصحية والمستلزمات الطبية المتطورة.', 'en' => 'Advanced respiratory, healthcare and medical equipment.'],
+                'description' => ['ar' => 'أجهزة التنفس الرعاية الصحية والمستلزمات الطبية المتطورة.', 'en' => 'Advanced respiratory, healthcare and medical equipment.'],
                 'image' => 'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=200&q=80',
+            ],
+            [
+                'name' => ['ar' => 'أبوت (Abbott)', 'en' => 'Abbott'],
+                'slug' => 'abbott',
+                'description' => ['ar' => 'رائدة في أجهزة قياس السكر والرعاية الطبية والتغذوية.', 'en' => 'Leader in glucose monitoring, diagnostics, and nutritional products.'],
+                'image' => 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=300&q=80',
+            ],
+            [
+                'name' => ['ar' => 'روش (Roche)', 'en' => 'Roche'],
+                'slug' => 'roche',
+                'description' => ['ar' => 'أجهزة الفحص المخبري والتشخيص الدقيق للأمراض والمتابعة الطبية.', 'en' => 'Laboratory testing and precision diagnostics for diseases.'],
+                'image' => 'https://images.unsplash.com/photo-1579684389782-64d84b5e901a?auto=format&fit=crop&w=300&q=80',
+            ],
+            [
+                'name' => ['ar' => 'جونسون آند جونسون (J&J)', 'en' => 'Johnson & Johnson'],
+                'slug' => 'johnson-johnson',
+                'description' => ['ar' => 'الأجهزة الجراحية ومستلزمات الرعاية الطبية الاستهلاكية عالية الكفاءة.', 'en' => 'Surgical devices and high-efficiency medical consumer supplies.'],
+                'image' => 'https://images.unsplash.com/photo-1628771065518-0d82f1113871?auto=format&fit=crop&w=300&q=80',
+            ],
+            [
+                'name' => ['ar' => 'ليتمن (3M Littmann)', 'en' => '3M Littmann'],
+                'slug' => '3m-littmann',
+                'description' => ['ar' => 'سماعات الطبيب الطبية الاحترافية الأكثر دقة وموثوقية في العالم.', 'en' => 'The most accurate and reliable professional medical stethoscopes in the world.'],
+                'image' => 'https://images.unsplash.com/photo-1584515901387-aee001d9f56a?auto=format&fit=crop&w=300&q=80',
             ]
         ];
 

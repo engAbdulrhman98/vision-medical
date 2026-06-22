@@ -501,16 +501,16 @@
                 </p>
             </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8">
                 @foreach($brands as $brand)
                     <a href="{{ route('store', ['brand' => $brand->slug]) }}" 
-                       class="group bg-white border border-slate-200/80 rounded-2xl p-6 flex flex-col items-center justify-center text-center hover:border-emerald-500/30 hover:shadow-lg transition-all duration-300 h-52 relative">
+                       class="group bg-white border border-slate-200/80 rounded-3xl p-8 flex flex-col items-center justify-center text-center hover:border-emerald-500/40 hover:shadow-xl transition-all duration-300 h-64 relative">
                         @if($brand->image && !str_contains($brand->image, 'placeholder'))
-                            <img src="{{ $brand->image }}" alt="{{ $brand->name }}" class="max-h-32 max-w-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300">
+                            <img src="{{ $brand->image }}" alt="{{ $brand->name }}" class="max-h-44 max-w-full object-contain filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-300">
                         @else
-                            <span class="text-sm font-black text-slate-700 group-hover:text-emerald-600 transition-colors">{{ $brand->name }}</span>
+                            <span class="text-lg font-black text-slate-700 group-hover:text-emerald-600 group-hover:scale-105 transition-all duration-300">{{ $brand->name }}</span>
                         @endif
-                        <span class="absolute bottom-2 text-[9px] font-bold text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span class="absolute bottom-4 text-[10px] font-bold text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity">
                             {{ app()->getLocale() == 'ar' ? 'عرض المنتجات' : 'View Products' }}
                         </span>
                     </a>
