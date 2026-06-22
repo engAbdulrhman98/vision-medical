@@ -91,11 +91,31 @@ class Setting extends Model
 
         if ($allSameTime) {
             $openDayKeys = array_keys($openDays);
-            if (count($openDayKeys) === 6 && !in_array('friday', $openDayKeys) && $openDayKeys[0] === 'saturday' && end($openDayKeys) === 'thursday') {
+            
+            $daysOfWeek = ['saturday', 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
+            $indices = [];
+            foreach ($openDayKeys as $key) {
+                $indices[] = array_search($key, $daysOfWeek);
+            }
+            
+            $isConsecutive = false;
+            if (count($indices) >= 2) {
+                $isConsecutive = true;
+                for ($i = 1; $i < count($indices); $i++) {
+                    if ($indices[$i] !== $indices[$i - 1] + 1) {
+                        $isConsecutive = false;
+                        break;
+                    }
+                }
+            }
+            
+            if ($isConsecutive) {
+                $firstDay = reset($openDays);
+                $lastDay = end($openDays);
                 if ($locale === 'ar') {
-                    return 'السبت - الخميس: ' . $timeRangeStr;
+                    return 'من ' . $firstDay['name'] . ' إلى ' . $lastDay['name'] . ': ' . $timeRangeStr;
                 } else {
-                    return 'Sat - Thu: ' . $timeRangeStr;
+                    return 'From ' . $firstDay['name'] . ' to ' . $lastDay['name'] . ': ' . $timeRangeStr;
                 }
             }
             
