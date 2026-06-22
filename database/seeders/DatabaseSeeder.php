@@ -62,19 +62,19 @@ class DatabaseSeeder extends Seeder
                 'name' => ['ar' => 'الأجهزة التشخيصية', 'en' => 'Diagnostic Devices'],
                 'slug' => 'diagnostic-devices',
                 'description' => ['ar' => 'أجهزة قياس الضغط، السكر، الحرارة وأجهزة التشخيص الدقيقة.', 'en' => 'Blood pressure, glucose, temperature monitors and precision diagnostic tools.'],
-                'image' => 'https://images.unsplash.com/photo-1603398938378-e54eab446dde?auto=format&fit=crop&w=600&q=80',
+                'image' => 'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=800&q=80',
             ],
             [
                 'name' => ['ar' => 'المستلزمات الطبية', 'en' => 'Medical Supplies'],
                 'slug' => 'medical-supplies',
                 'description' => ['ar' => 'كمامات، قفازات، معقمات وأدوات الرعاية اليومية الطبية.', 'en' => 'Masks, gloves, sanitizers and daily medical care tools.'],
-                'image' => 'https://images.unsplash.com/photo-1584515901387-aee001d9f56a?auto=format&fit=crop&w=600&q=80',
+                'image' => 'https://images.unsplash.com/photo-1583324113626-70df0f4decab?auto=format&fit=crop&w=800&q=80',
             ],
             [
                 'name' => ['ar' => 'العيون والبصريات', 'en' => 'Ophthalmology & Optics'],
                 'slug' => 'ophthalmology-optics',
                 'description' => ['ar' => 'عدسات، قطرات عيون وأجهزة فحص النظر المتطورة.', 'en' => 'Lenses, eye drops and advanced vision exam equipment.'],
-                'image' => 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=600&q=80',
+                'image' => 'https://images.unsplash.com/photo-1508962914676-134849a727f0?auto=format&fit=crop&w=800&q=80',
             ]
         ];
 
