@@ -95,3 +95,17 @@ foreach ($locales as $locale) {
 
     });
 }
+
+Route::get('/debug-env', function () {
+    return [
+        'env_cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+        'env_api_key' => env('CLOUDINARY_API_KEY'),
+        'env_api_secret' => env('CLOUDINARY_API_SECRET'),
+        'getenv_cloud_name' => getenv('CLOUDINARY_CLOUD_NAME'),
+        'getenv_api_key' => getenv('CLOUDINARY_API_KEY'),
+        'getenv_api_secret' => getenv('CLOUDINARY_API_SECRET'),
+        '_SERVER_cloud_name' => $_SERVER['CLOUDINARY_CLOUD_NAME'] ?? null,
+        '_SERVER_api_key' => $_SERVER['CLOUDINARY_API_KEY'] ?? null,
+        '_SERVER_api_secret' => $_SERVER['CLOUDINARY_API_SECRET'] ?? null,
+    ];
+});
