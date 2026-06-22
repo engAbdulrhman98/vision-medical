@@ -95,12 +95,3 @@ foreach ($locales as $locale) {
 
     });
 }
-
-Route::get('/seed-database-run', function () {
-    try {
-        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--force' => true]);
-        return 'Seeded successfully!<br><pre>' . \Illuminate\Support\Facades\Artisan::output() . '</pre>';
-    } catch (\Exception $e) {
-        return 'Error seeding: ' . $e->getMessage() . '<br><pre>' . $e->getTraceAsString() . '</pre>';
-    }
-});
